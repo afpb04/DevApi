@@ -1,0 +1,292 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DevAPI Documentation",
+    "description": "This is an API Rest",
+    "version": "1.0.0",
+    "contact": {
+      "email": "antonio@hotmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new User",
+        "description": "Create a new User",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "email@exemple.com",
+                  "password": "123456"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Email already exists!"
+          }
+        }
+      }
+    },
+    "/connector": {
+      "post": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "Create a Connector",
+        "description": "Create a new connector",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Connector"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "List all connector",
+        "description": "List all connector",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "connector name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "connector category",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "privacy",
+            "in": "query",
+            "description": "connector privacy",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "connector privacy",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Connector"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/connector/update/{id}": {
+      "put": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "Update a Connector",
+        "description": "Update connector",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "connector id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Connector"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/connector/{id}/delete": {
+      "delete": {
+        "tags": [
+          "Connector"
+        ],
+        "summary": "Delete a Connector",
+        "description": "Delete a connector",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "connector id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "admin@devapi.com.br",
+                  "password": "admin"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Email or password incorrect!"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Connector": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "privacy": {
+          "type": "string"
+        },
+        "base_url": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "logo_url": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
